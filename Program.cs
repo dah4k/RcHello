@@ -1,22 +1,20 @@
 // Copyright 2025 dah4k
 // SPDX-License-Identifier: EPL-2.0
 
+namespace Csharp.RcHello;
+
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System;
 
-namespace Csharp.RcHello;
 class Program
 {
     static private string LoadEmbeddedFile(string pathname)
     {
-        // https://khalidabuhakmeh.com/how-to-use-embedded-resources-in-dotnet
-        var info = Assembly.GetExecutingAssembly().GetName();
-        var name = info.Name;
-        using var stream = Assembly
-            .GetExecutingAssembly()
-            .GetManifestResourceStream($"{name}.{pathname.Replace('/', '.')}")!;
+        var assembly = Assembly.GetExecutingAssembly();
+        var name = assembly.GetName().Name;
+        using var stream = assembly.GetManifestResourceStream($"{name}.{pathname.Replace('/', '.')}")!;
         using var streamReader = new StreamReader(stream, Encoding.UTF8);
         return streamReader.ReadToEnd();
     }
